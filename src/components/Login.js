@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { withCookies } from "react-cookies";
+import { withCookies } from "react-cookie";
 import axios from "axios";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -120,13 +120,14 @@ const Login = (props) => {
   const classes = useStyles();
   const [state, dispatch] = useReducer(loginReducer, initialState);
 
+  // 入力フォームに変更があった際毎回呼び出される関数(ログイン)
   const inputChangedLog = () => (event) => {
     const cred = state.credentialsLog;
-    // 入力フォームのオブジェクトをusernameまたはpasswordに格納する
+    // 入力フォームのオブジェクトをmail_addressまたはpasswordに格納する
     cred[event.target.name] = event.target.value;
     dispatch({
       type: INPUT_EDIT,
-      inputName: "state.credentialsLog",
+      inputName: "state.credentialLog",
       payload: cred,
     });
   };
@@ -138,7 +139,7 @@ const Login = (props) => {
     cred[event.target.name] = event.target.value;
     dispatch({
       type: INPUT_EDIT,
-      inputName: "state.credentialsReg",
+      inputName: "state.credentialReg",
       payload: cred,
     });
   };
@@ -170,7 +171,7 @@ const Login = (props) => {
     } else {
       try {
         dispatch({ type: START_FETCH });
-        const res = await axios.post(
+        await axios.post(
           "http://127.0.0.1:8000/api/user/create/",
           state.credentialsReg,
           {
@@ -190,7 +191,126 @@ const Login = (props) => {
     dispatch({ type: TOGGLE_MODE });
   };
 
-  return <div></div>;
+  return (
+    <Container maxWidth="xs">
+      <form onSubmit={login}>
+        <div className={classes.paper}>
+          {state.isLoading && <CircularProgress />}
+          <Avatar className={classes.avatar}>
+            {/* 鍵アイコン */}
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography variant="h5">
+            {/* LoginかRegisterかで表示文字をコントール */}
+            {state.isLoginView ? "Login" : "Register"}
+          </Typography>
+
+          {/* ログイン(email)の場合もしくは新規登録(username)の場合に表示するForm */}
+          {state.isLoginView ? (
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              label="Email"
+              name="username"
+              value={state.credentialsLog.username}
+              onChange={inputChangedLog()}
+              autoFocus
+            />
+          ) : (
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              label="Email"
+              name="email"
+              value={state.credentialsReg.email}
+              onChange={inputChangedReg()}
+              autoFocus
+            />
+          )}
+
+          {/* ログイン(password)の場合もしくは新規登録(password)の場合に表示するForm */}
+          {state.isLoginView ? (
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              label="Password"
+              name="password"
+              type="password"
+              value={state.credentialsLog.password}
+              onChange={inputChangedLog()}
+            />
+          ) : (
+            <TextField
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              label="Password"
+              name="password"
+              type="password"
+              value={state.credentialsReg.password}
+              onChange={inputChangedReg()}
+            />
+          )}
+          {/* エラーメッセージの表示() */}
+          <span className={classes.spanError}>{state.error}</span>
+
+          {state.isLoginView ? (
+            !state.credentialsLog.password || !state.credentialsLog.username ? (
+              <Button
+                className={classes.submit}
+                type="submit"
+                fullWidth
+                disabled
+                variant="contained"
+                color="primary"
+              >
+                Login
+              </Button>
+            ) : (
+              <Button
+                className={classes.submit}
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+              >
+                Login
+              </Button>
+            )
+          ) : !state.credentialsReg.password || !state.credentialsReg.email ? (
+            <Button
+              className={classes.submit}
+              type="submit"
+              fullWidth
+              disabled
+              variant="contained"
+              color="primary"
+            >
+              Register
+            </Button>
+          ) : (
+            <Button
+              className={classes.submit}
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+            >
+              Register
+            </Button>
+          )}
+
+          {/* ログイン、新規登録の切り替えボタン */}
+          <span onClick={() => toggleView()} className={classes.span}>
+            {state.isLoginView ? "Create Accout ?" : "Back to login ?"}
+          </span>
+        </div>
+      </form>
+    </Container>
+  );
 };
 
-export default Login;
+export default withCookies(Login);
