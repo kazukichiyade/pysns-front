@@ -60,6 +60,7 @@ const ProfileManager = () => {
     const fileInput = document.getElementById("imageInput");
     fileInput.click();
   };
+  // 入力フォームの関数
   const handleInputChange = () => (event) => {
     const value = event.target.value;
     const name = event.target.name;
@@ -68,6 +69,7 @@ const ProfileManager = () => {
   return (
     <div className={classes.profile}>
       <div className="image-wrapper">
+        {/* ログインプロフィール画像設定(idが存在しない場合は、null画像指定) */}
         {profile.id ? (
           <img src={profile.img} alt="profile" className="profile-image" />
         ) : (
@@ -81,16 +83,19 @@ const ProfileManager = () => {
           type="file"
           id="imageInput"
           hidden="hidden"
+          // ファイル周りを触る場合、毎度event.target.valueを初期化する事
           onChange={(event) => {
             setCover(event.target.files[0]);
             event.target.value = "";
           }}
         />
+        {/* プロフィール画像編集ボタンを紐付け、こちらのボタンでも画像編集可能に */}
         <IconButton onClick={handleEditPicture}>
           <MdAddAPhoto className="photo" />
         </IconButton>
       </div>
 
+      {/* 新規編集時nickNameとcoverが設定されていない場合に編集完了ボタンがdisabledになる */}
       {editedProfile.id ? (
         editedProfile.nickName ? (
           <button className="user" onClick={() => editProfile()}>
@@ -110,12 +115,14 @@ const ProfileManager = () => {
           <BsPersonPlus />
         </button>
       )}
+      {/* ゴミ箱ボタンの処理 */}
       <button className="trash" onClick={() => deleteProfile()}>
         <BsTrash />
       </button>
 
       <div className="profile-details">
-        <BsPersonCheckFill className="badge" />{" "}
+        {/* nickNameがあればspan表示 */}
+        <BsPersonCheckFill className="badge" />
         {profile && <span>{profile.nickName}</span>}
         <hr />
         <input
@@ -127,6 +134,7 @@ const ProfileManager = () => {
         <hr />
         <span>Joined at {profile.created_on} </span>
         <hr />
+        {/* エリアは残念ながら固定 */}
         <LocationOn /> <span>JAPAN</span>
       </div>
     </div>

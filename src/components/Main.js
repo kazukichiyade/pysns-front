@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import { GoMail } from "react-icons/go";
 import { BsFillPeopleFill } from "react-icons/bs";
 import Profile from "./Profile";
-// import ProfileManager from "./ProfileManager";
+import ProfileManager from "./ProfileManager";
 // import Ask from "./Ask";
 // import InboxDM from "./InboxDM";
 
@@ -43,7 +43,9 @@ const Main = () => {
 
       {/* ２列目 */}
       <Grid item xs={4}>
-        <div className="app-details">{/* <ProfileManager /> */}</div>
+        <div className="app-details">
+          <ProfileManager />
+        </div>
         <h3 className="title-ask">
           {" "}
           <BsFillPeopleFill className="badge" />
