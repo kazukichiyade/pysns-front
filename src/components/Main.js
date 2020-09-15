@@ -3,38 +3,42 @@ import { ApiContext } from "../context/ApiContext";
 import Grid from "@material-ui/core/Grid";
 import { GoMail } from "react-icons/go";
 import { BsFillPeopleFill } from "react-icons/bs";
-// import Profile from "./Profile";
+import Profile from "./Profile";
 // import ProfileManager from "./ProfileManager";
 // import Ask from "./Ask";
 // import InboxDM from "./InboxDM";
 
+// Mainに関わる関数(メインコンテンツ) Profile.jsへ渡す物もある
 const Main = () => {
-  //   const { profiles, profile, askList, askListFull, inbox } = useContext(
-  //     ApiContext
-  //   );
-  //   const filterProfiles = profiles.filter((prof) => {
-  //     return prof.id !== profile.id;
-  //   });
-  //   const listProfiles =
-  //     filterProfiles &&
-  //     filterProfiles.map((filprof) => (
-  //       <Profile
-  //         key={filprof.id}
-  //         profileData={filprof}
-  //         askData={askListFull.filter((ask) => {
-  //           return (
-  //             (filprof.userPro === ask.askFrom) | (filprof.userPro === ask.askTo)
-  //           );
-  //         })}
-  //       />
-  //     ));
+  // useContextを使用しApiContext.jsから関数、state取得
+  const { profiles, profile, askList, askListFull, inbox } = useContext(
+    ApiContext
+  );
+  // 自分のプロフィール以外をフィルター掛けする為filterメソッドを使用
+  const filterProfiles = profiles.filter((prof) => {
+    return prof.id !== profile.id;
+  });
+  // 自分のプロフィール以外かつ、ある場合に自分以外のプロフィールを取得する為、mapメソッドを使用し取得
+  const listProfiles =
+    filterProfiles &&
+    filterProfiles.map((filprof) => (
+      <Profile
+        key={filprof.id}
+        // Profile.jsから取得
+        profileData={filprof}
+        // Profile.jsから取得(友達申請の全データからフィルター掛けして取得)
+        askData={askListFull.filter((ask) => {
+          return (
+            (filprof.userPro === ask.askFrom) | (filprof.userPro === ask.askTo)
+          );
+        })}
+      />
+    ));
   return (
     <Grid container>
       {/* １列目 */}
       <Grid item xs={4}>
-        <div className="app-profiles">
-          {/* <div className="task-list">{listProfiles}</div> */}
-        </div>
+        <div className="app-profiles">{listProfiles}</div>
       </Grid>
 
       {/* ２列目 */}
