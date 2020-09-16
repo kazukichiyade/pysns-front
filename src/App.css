@@ -136,3 +136,11 @@
   outline: none;
   cursor: pointer;
 }
+
+h3 {
+  color: black;
+  font-family: "Comic Neue", cursive;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
