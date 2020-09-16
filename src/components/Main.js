@@ -38,7 +38,9 @@ const Main = () => {
     <Grid container>
       {/* １列目 */}
       <Grid item xs={4}>
-        <div className="app-profiles">{listProfiles}</div>
+        <div className="app-profiles">
+          <div className="task-list">{listProfiles}</div>
+        </div>
       </Grid>
 
       {/* ２列目 */}
