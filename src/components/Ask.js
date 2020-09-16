@@ -38,21 +38,31 @@ const Ask = ({ ask, prof }) => {
     },
   };
 
+  // モーダルでのvalueの変更の状態を持つ関数
   const handleInputChange = () => (event) => {
     const value = event.target.value;
     setText(value);
   };
+
+  // DMを送信する関数
   const sendDM = () => {
     const uploadDM = new FormData();
+    // 送り先及びメッセージ内容をappendで格納
     uploadDM.append("receiver", ask.askFrom);
     uploadDM.append("message", text);
+    // ApiContextにて関数を定義してある
     sendDMCont(uploadDM);
+    // モーダルを閉じる
     setModalIsOpen(false);
   };
+
+  // 承認ボタンを押した時に発火する関数
   const changeApproval = () => {
     const uploadDataAsk = new FormData();
+    // 自分宛て及びapproved:trueをappendで格納
     uploadDataAsk.append("askTo", ask.askTo);
     uploadDataAsk.append("approved", true);
+    // ApiContextにて関数を定義してある
     changeApprovalRequest(uploadDataAsk, ask);
   };
 

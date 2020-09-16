@@ -5,7 +5,7 @@ import { GoMail } from "react-icons/go";
 import { BsFillPeopleFill } from "react-icons/bs";
 import Profile from "./Profile";
 import ProfileManager from "./ProfileManager";
-// import Ask from "./Ask";
+import Ask from "./Ask";
 // import InboxDM from "./InboxDM";
 
 // Mainに関わる関数(メインコンテンツ) Profile.jsへ渡す物もある
@@ -47,13 +47,13 @@ const Main = () => {
           <ProfileManager />
         </div>
         <h3 className="title-ask">
-          {" "}
           <BsFillPeopleFill className="badge" />
           Approval request list
         </h3>
         <div className="app-details">
           <div className="task-list">
-            {/* <ul>
+            <ul>
+              {/* プロフィールがある時かつ自分宛ての友達申請のみ(mapを使用する場合key指定必要) */}
               {profile.id &&
                 askList.map((ask) => (
                   <Ask
@@ -64,7 +64,7 @@ const Main = () => {
                     })}
                   />
                 ))}
-            </ul> */}
+            </ul>
           </div>
         </div>
       </Grid>
