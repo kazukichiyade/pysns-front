@@ -6,7 +6,7 @@ import { BsFillPeopleFill } from "react-icons/bs";
 import Profile from "./Profile";
 import ProfileManager from "./ProfileManager";
 import Ask from "./Ask";
-// import InboxDM from "./InboxDM";
+import InboxDM from "./InboxDM";
 
 // Mainに関わる関数(メインコンテンツ) Profile.jsへ渡す物もある
 const Main = () => {
@@ -78,7 +78,7 @@ const Main = () => {
         </h3>
         <div className="app-dms">
           <div className="task-list">
-            {/* <ul>
+            <ul>
               {profile.id &&
                 inbox.map((dm) => (
                   <InboxDM
@@ -89,7 +89,7 @@ const Main = () => {
                     })}
                   />
                 ))}
-            </ul> */}
+            </ul>
           </div>
         </div>
       </Grid>
